@@ -13,9 +13,12 @@ export default function Page() {
     }}>
       <h1 style={{
         font: '40px bold Arial, Helvetica, sans-serif',
-      }}>SMITE Prometheus</h1>
-      <Link href="/hunters">
-        <span>Hunters</span> {/* <ArrowRightIcon className="w-5 md:w-6" /> */}
+      }}>Dylan Haffner's website.</h1>
+      <Link href="/smite-prometheus">
+        <span>SMITE PROMETHEUS project</span>
+      </Link>
+      <Link href="/expenses-tracker">
+        <span>Expenses Tracker</span>
       </Link>
     </main>
   );

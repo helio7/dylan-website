@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from './index.module.css'
 import LevelInput from "./level-input";
-import { SortedHunter, SortingCriteria } from "../../app/hunters/page";
+import { SortedHunter, SortingCriteria } from "./page";
 
 export default function GodsTable({
   gods,
