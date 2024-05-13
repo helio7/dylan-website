@@ -67,23 +67,22 @@ export default function ExpensesTable({
         }}>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'name'/* NAME */ ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection('name'/* NAME */)}>Name</div>
+            backgroundColor: criteria === 'name'? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('name')}>Name</div>
           <div className={styles['grid-item']}>Base cost</div>
           <div className={styles['grid-item']}>Taxes (%)</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            // backgroundColor: [TOTAL_COST, PERCENT_FROM_THE_TOTAL].includes(criteria) ? '#FFC90E' : undefined,
             backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection('total_cost'/* TOTAL_COST */)}>Total cost</div>
+          }} onClick={() => toggleSortDirection('total_cost')}>Total cost</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: ['total_cost', 'percent_from_the_total'/* TOTAL_COST, PERCENT_FROM_THE_TOTAL */].includes(criteria) ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection('percent_from_the_total'/* PERCENT_FROM_THE_TOTAL */)}>Percent from the total</div>
+            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('percent_from_the_total')}>Percent from the total</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'payment_month_day'/* PAYMENT_MONTH_DAY */ ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection('payment_month_day'/* PAYMENT_MONTH_DAY */)}>Payment month day</div>
+            backgroundColor: criteria === 'payment_month_day' ? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('payment_month_day')}>Payment month day</div>
         </div>
         <div style={{
           backgroundColor: 'yellow',
