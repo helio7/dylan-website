@@ -129,6 +129,7 @@ export default function HuntersPage() {
         sortingCriteria={sortingCriteria}
         backgroundColor="orange"
         itemsBackgroundColor="burlywood"
+        selectedBackgroundColor="#FFC90E"
       />
     </main>
   );

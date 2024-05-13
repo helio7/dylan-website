@@ -12,6 +12,7 @@ export default function GodsTable({
   sortingCriteria,
   backgroundColor,
   itemsBackgroundColor,
+  selectedBackgroundColor,
 }: {
   gods: SortedHunter[],
   toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps') => void,
@@ -21,6 +22,7 @@ export default function GodsTable({
   sortingCriteria: SortingCriteria,
   backgroundColor: string,
   itemsBackgroundColor: string,
+  selectedBackgroundColor: string,
 }) {
   const auxArray = [];
   if (gods) {
@@ -58,19 +60,19 @@ export default function GodsTable({
           }}>Icon</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'name' ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: criteria === 'name' ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('name')} >Name</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'attack_speed' ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: criteria === 'attack_speed' ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('attack_speed')}>Attack speed</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'damage' ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: criteria === 'damage' ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('damage')}>Damage</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'dps' ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: criteria === 'dps' ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('dps')}>DPS</div>
         </div>
         <div style={{

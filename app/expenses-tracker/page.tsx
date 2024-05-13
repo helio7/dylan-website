@@ -118,6 +118,7 @@ export default function ExpensesCalculator() {
         sortingCriteria={sortingCriteria}
         backgroundColor="orange"
         itemsBackgroundColor="burlywood"
+        selectedBackgroundColor="#FFC90E"
       />
     </main>
   );

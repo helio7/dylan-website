@@ -26,6 +26,7 @@ export default function ExpensesTable({
   sortingCriteria,
   backgroundColor,
   itemsBackgroundColor,
+  selectedBackgroundColor,
 }: {
   total: number,
   expenses: Expense[],
@@ -33,6 +34,7 @@ export default function ExpensesTable({
   sortingCriteria: SortingCriteria,
   backgroundColor: string,
   itemsBackgroundColor: string,
+  selectedBackgroundColor: string,
 }) {
   const auxArray = [];
   if (expenses) {
@@ -69,7 +71,7 @@ export default function ExpensesTable({
         }}>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'name'? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: criteria === 'name'? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('name')}>Name</div>
           <div className={styles['grid-item']} style={{
             backgroundColor: itemsBackgroundColor,
@@ -79,15 +81,15 @@ export default function ExpensesTable({
           }}>Taxes (%)</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('total_cost')}>Total cost</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('percent_from_the_total')}>Percent from the total</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'payment_month_day' ? '#FFC90E' : itemsBackgroundColor,
+            backgroundColor: criteria === 'payment_month_day' ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('payment_month_day')}>Payment month day</div>
         </div>
         <div style={{
