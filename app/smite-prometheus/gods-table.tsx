@@ -10,6 +10,7 @@ export default function GodsTable({
   increaseLevel,
   decreaseLevel,
   sortingCriteria,
+  backgroundColor,
 }: {
   gods: SortedHunter[],
   toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps') => void,
@@ -17,6 +18,7 @@ export default function GodsTable({
   increaseLevel: () => void,
   decreaseLevel: () => void,
   sortingCriteria: SortingCriteria,
+  backgroundColor: string,
 }) {
   const auxArray = [];
   if (gods) {
@@ -43,7 +45,7 @@ export default function GodsTable({
           gridTemplateColumns: '56px 200px 112px 112px 112px',
           gridTemplateRows: '56px',
           gap: '4px',
-          backgroundColor: 'orange',
+          backgroundColor,
           padding: '4px',
           border: '1px solid black',
           marginBottom: '10px',
@@ -76,7 +78,7 @@ export default function GodsTable({
             gridTemplateColumns: '56px 200px 112px 112px 112px',
             gridTemplateRows: '56px 56px',
             gap: '4px',
-            backgroundColor: 'orange',
+            backgroundColor,
             padding: '4px',
             border: '1px solid black',
             borderRadius: '5px',
@@ -117,7 +119,7 @@ export default function GodsTable({
           </div>
         </div>
       </div>
-      <LevelInput level={level} increaseLevel={increaseLevel} decreaseLevel={decreaseLevel} />
+      <LevelInput level={level} increaseLevel={increaseLevel} decreaseLevel={decreaseLevel} backgroundColor={backgroundColor} />
     </div>
   ); 
 }

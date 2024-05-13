@@ -127,6 +127,7 @@ export default function HuntersPage() {
         decreaseLevel={decreaseLevel}
         level={level}
         sortingCriteria={sortingCriteria}
+        backgroundColor="orange"
       />
     </main>
   );

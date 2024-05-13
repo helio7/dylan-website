@@ -5,10 +5,12 @@ export default function LevelInput({
   level,
   increaseLevel,
   decreaseLevel,
+  backgroundColor,
 }: {
   level: number,
   increaseLevel: () => void,
   decreaseLevel: () => void,
+  backgroundColor: string,
 }) {
   return (
     <div style={{
@@ -28,7 +30,7 @@ export default function LevelInput({
         gridTemplateColumns: '32px',
         gridTemplateRows: '32px 28px 32px',
         gap: '4px',
-        backgroundColor: 'orange',
+        backgroundColor,
         padding: '4px',
         border: '1px solid black',
         borderRadius: '5px',

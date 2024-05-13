@@ -24,11 +24,13 @@ export default function ExpensesTable({
   expenses,
   toggleSortDirection,
   sortingCriteria,
+  backgroundColor,
 }: {
   total: number,
   expenses: Expense[],
   toggleSortDirection: (criteria: ExpenseSortingCriteria) => void,
   sortingCriteria: SortingCriteria,
+  backgroundColor: string,
 }) {
   const auxArray = [];
   if (expenses) {
@@ -49,6 +51,7 @@ export default function ExpensesTable({
       position: 'relative',
       display: 'flex',
       flexDirection: 'column',
+      alignItems: 'center',
     }}>
       <div>
         <div style={{
@@ -56,7 +59,7 @@ export default function ExpensesTable({
           gridTemplateColumns: '224px 112px 112px 112px 224px 224px',
           gridTemplateRows: '56px',
           gap: '4px',
-          backgroundColor: 'orange',
+          backgroundColor,
           padding: '4px',
           border: '1px solid black',
           marginBottom: '10px',
@@ -90,7 +93,7 @@ export default function ExpensesTable({
             display: 'grid',
             gridTemplateColumns: '224px 112px 112px 112px 224px 224px',
             gap: '4px',
-            backgroundColor: 'orange',
+            backgroundColor,
             padding: '4px',
             border: '1px solid black',
             borderRadius: '5px',
@@ -127,7 +130,31 @@ export default function ExpensesTable({
           </div>
         </div>
       </div>
-      <span>Total: {total}</span>
+      <div style={{
+        backgroundColor,
+        border: '1px solid black',
+        borderRadius: '5px',
+        margin: '5px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '5px',
+        width: '122px',
+      }}>
+        <div style={{
+          backgroundColor: 'burlywood',
+          border: '1px solid black',
+          borderRadius: '5px',
+          padding: '5px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <span style={{
+            textAlign: 'center',
+          }}>Total: {total.toFixed(3).replace(/\.?0*$/,'')}</span>
+        </div>
+      </div>
     </div>
   ); 
 }
