@@ -116,9 +116,9 @@ export default function ExpensesCalculator() {
         expenses={expenses}
         toggleSortDirection={toggleSortDirection}
         sortingCriteria={sortingCriteria}
-        backgroundColor="orange"
-        itemsBackgroundColor="burlywood"
-        selectedBackgroundColor="#FFC90E"
+        backgroundColor="gray"
+        itemsBackgroundColor="lightgreen"
+        selectedBackgroundColor="aquamarine"
       />
     </main>
   );
