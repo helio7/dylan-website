@@ -1,9 +1,8 @@
-import { PaymentDetailMode } from '../api/expenses/route';
+import { Expense, PaymentDetailMode } from '../interfaces';
 import styles from './index.module.css'
-import { Expense, ExpenseSortingCriteria, SortingCriteria } from "./page";
+import { ExpenseSortingCriteria, SortingCriteria } from "./page";
 
-
-function getDisplayTextFromPaymentDetailsMode(mode: PaymentDetailMode) {
+function getDisplayTextFromPaymentDetailsMode(mode: string) {
   const { AUTO, EXPIRES, ON_SITE, ON_DEMAND } = PaymentDetailMode;
   console.log('Mode', mode);
   switch (mode) {
@@ -45,8 +44,6 @@ export default function ExpensesTable({
 
   const { criteria } = sortingCriteria;
 
-  const { NAME, TOTAL_COST, PERCENT_FROM_THE_TOTAL, PAYMENT_MONTH_DAY } = ExpenseSortingCriteria;
-
   return (
     <div style={{
       position: 'relative',
@@ -67,22 +64,23 @@ export default function ExpensesTable({
         }}>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === NAME ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection(NAME)}>Name</div>
+            backgroundColor: criteria === 'name'/* NAME */ ? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('name'/* NAME */)}>Name</div>
           <div className={styles['grid-item']}>Base cost</div>
           <div className={styles['grid-item']}>Taxes (%)</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: [TOTAL_COST, PERCENT_FROM_THE_TOTAL].includes(criteria) ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection(TOTAL_COST)}>Total cost</div>
+            // backgroundColor: [TOTAL_COST, PERCENT_FROM_THE_TOTAL].includes(criteria) ? '#FFC90E' : undefined,
+            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('total_cost'/* TOTAL_COST */)}>Total cost</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: [TOTAL_COST, PERCENT_FROM_THE_TOTAL].includes(criteria) ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection(PERCENT_FROM_THE_TOTAL)}>Percent from the total</div>
+            backgroundColor: ['total_cost', 'percent_from_the_total'/* TOTAL_COST, PERCENT_FROM_THE_TOTAL */].includes(criteria) ? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('percent_from_the_total'/* PERCENT_FROM_THE_TOTAL */)}>Percent from the total</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === PAYMENT_MONTH_DAY ? '#FFC90E' : undefined,
-          }} onClick={() => toggleSortDirection(PAYMENT_MONTH_DAY)}>Payment month day</div>
+            backgroundColor: criteria === 'payment_month_day'/* PAYMENT_MONTH_DAY */ ? '#FFC90E' : undefined,
+          }} onClick={() => toggleSortDirection('payment_month_day'/* PAYMENT_MONTH_DAY */)}>Payment month day</div>
         </div>
         <div style={{
           backgroundColor: 'yellow',

@@ -3,25 +3,9 @@
 import Link from "next/link";
 import ExpensesTable from "./expenses-table";
 import { useState, useEffect } from 'react';
-import { PaymentDetailMode } from "../api/expenses/route";
+import { Expense, PaymentDetailMode } from "../interfaces";
 
-export interface Expense {
-  codename: string;
-  displayName: string;
-  baseCost: number;
-  taxesPercent: number;
-  paymentDetails: {
-    mode: PaymentDetailMode,
-    monthDay?: number,
-  };
-}
-
-export enum ExpenseSortingCriteria {
-  NAME = 'name',
-  TOTAL_COST = 'total_cost',
-  PERCENT_FROM_THE_TOTAL = 'percent_from_the_total',
-  PAYMENT_MONTH_DAY = 'payment_month_day',
-}
+export type ExpenseSortingCriteria = 'name' | 'total_cost' | 'percent_from_the_total' | 'payment_month_day';
 
 export interface SortingCriteria {
   criteria: ExpenseSortingCriteria;
@@ -46,8 +30,6 @@ export default function ExpensesCalculator() {
   }, []);
 
   function recalculate(criteria: string, direction: string) {
-    const { NAME, TOTAL_COST, PERCENT_FROM_THE_TOTAL, PAYMENT_MONTH_DAY } = ExpenseSortingCriteria;
-
     let total = 0;
     for (const expense of expenses) {
       total += expense.baseCost * (1 + expense.taxesPercent / 100);
@@ -55,13 +37,13 @@ export default function ExpensesCalculator() {
 
     let sortingCallback;
     switch (criteria) {
-      case NAME:
+      case 'name':
         sortingCallback = (a: Expense, b: Expense) => {
           if (direction === 'asc') return a.displayName.localeCompare(b.displayName);
           else return b.displayName.localeCompare(a.displayName);
         };
         break;
-      case TOTAL_COST:
+      case 'total_cost':
         sortingCallback = (a: Expense, b: Expense) => {
           const aTotalCost = a.baseCost * (1 + a.taxesPercent / 100);
           const bTotalCost = b.baseCost * (1 + b.taxesPercent / 100);
@@ -69,7 +51,7 @@ export default function ExpensesCalculator() {
           else return bTotalCost - aTotalCost;
         };
         break;
-      case PERCENT_FROM_THE_TOTAL:
+      case 'percent_from_the_total':
         sortingCallback = (a: Expense, b: Expense) => {
           const aPercentFromTheTotal = (a.baseCost * (1 + a.taxesPercent / 100)) / total;
           const bPercentFromTheTotal = (b.baseCost * (1 + b.taxesPercent / 100)) / total;
@@ -77,7 +59,7 @@ export default function ExpensesCalculator() {
           else return bPercentFromTheTotal - aPercentFromTheTotal;
         }
         break;
-      case PAYMENT_MONTH_DAY:
+      case 'payment_month_day':
         sortingCallback = (a: Expense, b: Expense) => {
           if (a.paymentDetails.mode === PaymentDetailMode.ON_DEMAND) return 1;
           else if (b.paymentDetails.mode === PaymentDetailMode.ON_DEMAND) return -1;
@@ -107,8 +89,7 @@ export default function ExpensesCalculator() {
       }
       recalculate(criteria, newDirection);
     } else {
-      const { TOTAL_COST, PERCENT_FROM_THE_TOTAL } = ExpenseSortingCriteria;
-      if ([TOTAL_COST, PERCENT_FROM_THE_TOTAL].includes(criteria)) newDirection = 'desc';
+      if (['total_cost', 'percent_from_the_total'].includes(criteria)) newDirection = 'desc';
       setSortingCriteria({ criteria, direction: newDirection });
       recalculate(criteria, newDirection);
     }
