@@ -25,12 +25,14 @@ export default function ExpensesTable({
   toggleSortDirection,
   sortingCriteria,
   backgroundColor,
+  itemsBackgroundColor,
 }: {
   total: number,
   expenses: Expense[],
   toggleSortDirection: (criteria: ExpenseSortingCriteria) => void,
   sortingCriteria: SortingCriteria,
   backgroundColor: string,
+  itemsBackgroundColor: string,
 }) {
   const auxArray = [];
   if (expenses) {
@@ -67,21 +69,25 @@ export default function ExpensesTable({
         }}>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'name'? '#FFC90E' : undefined,
+            backgroundColor: criteria === 'name'? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('name')}>Name</div>
-          <div className={styles['grid-item']}>Base cost</div>
-          <div className={styles['grid-item']}>Taxes (%)</div>
+          <div className={styles['grid-item']} style={{
+            backgroundColor: itemsBackgroundColor,
+          }}>Base cost</div>
+          <div className={styles['grid-item']} style={{
+            backgroundColor: itemsBackgroundColor,
+          }}>Taxes (%)</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : undefined,
+            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('total_cost')}>Total cost</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : undefined,
+            backgroundColor: ['total_cost', 'percent_from_the_total'].includes(criteria) ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('percent_from_the_total')}>Percent from the total</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'payment_month_day' ? '#FFC90E' : undefined,
+            backgroundColor: criteria === 'payment_month_day' ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('payment_month_day')}>Payment month day</div>
         </div>
         <div style={{
@@ -103,22 +109,22 @@ export default function ExpensesTable({
                 let element;
                 switch (rest) {
                   case 0:
-                    element = <div className={styles['grid-item']}>{expense.displayName}</div>
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{expense.displayName}</div>
                     break;
                   case 1:
-                    element = <div className={styles['grid-item']}>{expense.baseCost}</div>
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{expense.baseCost}</div>
                     break;
                   case 2:
-                    element = <div className={styles['grid-item']}>{expense.taxesPercent}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{expense.taxesPercent}</div>;
                     break;
                   case 3:
-                    element = <div className={styles['grid-item']}>{(expense.baseCost * (1 + expense.taxesPercent / 100)).toFixed(2).replace(/\.?0*$/,'')}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(expense.baseCost * (1 + expense.taxesPercent / 100)).toFixed(2).replace(/\.?0*$/,'')}</div>;
                     break;
                   case 4:
-                    element = <div className={styles['grid-item']}>{((expense.baseCost * (1 + expense.taxesPercent / 100) / total) * 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((expense.baseCost * (1 + expense.taxesPercent / 100) / total) * 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
                     break;
                   case 5:
-                    element = <div className={styles['grid-item']}>{getDisplayTextFromPaymentDetailsMode(expense.paymentDetails.mode)}: {expense.paymentDetails.monthDay}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{getDisplayTextFromPaymentDetailsMode(expense.paymentDetails.mode)}: {expense.paymentDetails.monthDay}</div>;
                     break;
                   default:
                     break;
@@ -141,7 +147,7 @@ export default function ExpensesTable({
         width: '122px',
       }}>
         <div style={{
-          backgroundColor: 'burlywood',
+          backgroundColor: itemsBackgroundColor,
           border: '1px solid black',
           borderRadius: '5px',
           padding: '5px',

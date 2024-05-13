@@ -6,11 +6,13 @@ export default function LevelInput({
   increaseLevel,
   decreaseLevel,
   backgroundColor,
+  itemBackgroundColor,
 }: {
   level: number,
   increaseLevel: () => void,
   decreaseLevel: () => void,
   backgroundColor: string,
+  itemBackgroundColor: string,
 }) {
   return (
     <div style={{
@@ -43,7 +45,7 @@ export default function LevelInput({
           style={level === 20 ? { cursor: 'default' } : { cursor: 'pointer' }}
           onClick={level === 20 ? () => {} : increaseLevel}
         />
-        <div className={styles['grid-item']}>{level}</div>
+        <div className={styles['grid-item']} style={{ backgroundColor: itemBackgroundColor }}>{level}</div>
         <Image
           src={`/ui/down_arrow${level === 1 ? '_disabled' : ''}.png`}
           alt='Down Arrow'

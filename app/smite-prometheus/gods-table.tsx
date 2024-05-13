@@ -11,6 +11,7 @@ export default function GodsTable({
   decreaseLevel,
   sortingCriteria,
   backgroundColor,
+  itemsBackgroundColor,
 }: {
   gods: SortedHunter[],
   toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps') => void,
@@ -19,6 +20,7 @@ export default function GodsTable({
   decreaseLevel: () => void,
   sortingCriteria: SortingCriteria,
   backgroundColor: string,
+  itemsBackgroundColor: string,
 }) {
   const auxArray = [];
   if (gods) {
@@ -51,22 +53,24 @@ export default function GodsTable({
           marginBottom: '10px',
           borderRadius: '5px',
         }}>
-          <div className={styles['grid-item']}>Icon</div>
+          <div className={styles['grid-item']} style={{
+            backgroundColor: itemsBackgroundColor,
+          }}>Icon</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'name' ? '#FFC90E' : undefined,
+            backgroundColor: criteria === 'name' ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('name')} >Name</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'attack_speed' ? '#FFC90E' : undefined,
+            backgroundColor: criteria === 'attack_speed' ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('attack_speed')}>Attack speed</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'damage' ? '#FFC90E' : undefined,
+            backgroundColor: criteria === 'damage' ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('damage')}>Damage</div>
           <div className={styles['grid-item']} style={{
             cursor: 'pointer',
-            backgroundColor: criteria === 'dps' ? '#FFC90E' : undefined,
+            backgroundColor: criteria === 'dps' ? '#FFC90E' : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('dps')}>DPS</div>
         </div>
         <div style={{
@@ -89,7 +93,7 @@ export default function GodsTable({
                 let element;
                 switch (rest) {
                   case 0:
-                    element = <div className={styles['grid-item']}>
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>
                       <Image
                         src={`/gods_icons/${god.codename}.png`}
                         alt={`${god.name}'s profile picture`}
@@ -100,16 +104,16 @@ export default function GodsTable({
                     </div>;
                     break;
                   case 1:
-                    element = <div className={styles['grid-item']}>{god.name}</div>
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.name}</div>
                     break;
                   case 2:
-                    element = <div className={styles['grid-item']}>{(god.attack_speed + god.attack_speed_per_level * level / 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.attack_speed + god.attack_speed_per_level * level / 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
                     break;
                   case 3:
-                    element = <div className={styles['grid-item']}>{(god.damage + god.damage_per_level * level).toFixed(3).replace(/\.?0*$/,'')}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.damage + god.damage_per_level * level).toFixed(3).replace(/\.?0*$/,'')}</div>;
                     break;
                   case 4:
-                    element = <div className={styles['grid-item']}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
                   default:
                     break;
                 }
@@ -119,7 +123,7 @@ export default function GodsTable({
           </div>
         </div>
       </div>
-      <LevelInput level={level} increaseLevel={increaseLevel} decreaseLevel={decreaseLevel} backgroundColor={backgroundColor} />
+      <LevelInput level={level} increaseLevel={increaseLevel} decreaseLevel={decreaseLevel} backgroundColor={backgroundColor} itemBackgroundColor={itemsBackgroundColor} />
     </div>
   ); 
 }
