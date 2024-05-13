@@ -76,7 +76,6 @@ export default function GodsTable({
           }} onClick={() => toggleSortDirection('dps')}>DPS</div>
         </div>
         <div style={{
-          backgroundColor: 'yellow',
           display: 'flex',      
         }}>
           <div style={{

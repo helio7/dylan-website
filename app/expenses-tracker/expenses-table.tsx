@@ -93,7 +93,6 @@ export default function ExpensesTable({
           }} onClick={() => toggleSortDirection('payment_month_day')}>Payment month day</div>
         </div>
         <div style={{
-          backgroundColor: 'yellow',
           display: 'flex',      
         }}>
           <div style={{
