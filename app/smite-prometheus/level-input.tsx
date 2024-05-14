@@ -21,7 +21,7 @@ export default function LevelInput({
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      left: '618px',
+      left: '735px',
       padding: '5px',
     }}>
       <span style={{

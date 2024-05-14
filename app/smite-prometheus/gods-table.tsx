@@ -15,7 +15,7 @@ export default function GodsTable({
   selectedBackgroundColor,
 }: {
   gods: SortedHunter[],
-  toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps') => void,
+  toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier') => void,
   level: number,
   increaseLevel: () => void,
   decreaseLevel: () => void,
@@ -27,6 +27,7 @@ export default function GodsTable({
   const auxArray = [];
   if (gods) {
     for (const god of gods) {
+      auxArray.push(god);
       auxArray.push(god);
       auxArray.push(god);
       auxArray.push(god);
@@ -46,7 +47,7 @@ export default function GodsTable({
       <div>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '56px 200px 112px 112px 112px',
+          gridTemplateColumns: '56px 200px 112px 112px 112px 112px',
           gridTemplateRows: '56px',
           gap: '4px',
           backgroundColor,
@@ -74,13 +75,17 @@ export default function GodsTable({
             cursor: 'pointer',
             backgroundColor: criteria === 'dps' ? selectedBackgroundColor : itemsBackgroundColor,
           }} onClick={() => toggleSortDirection('dps')}>DPS</div>
+          <div className={styles['grid-item']} style={{
+            cursor: 'pointer',
+            backgroundColor: criteria === 'attack_speed_buff_tier' ? selectedBackgroundColor : itemsBackgroundColor,
+          }} onClick={() => toggleSortDirection('attack_speed_buff_tier')}>Attack Speed Buff Tier</div>
         </div>
         <div style={{
           display: 'flex',      
         }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '56px 200px 112px 112px 112px',
+            gridTemplateColumns: '56px 200px 112px 112px 112px 112px',
             gridTemplateRows: '56px 56px',
             gap: '4px',
             backgroundColor,
@@ -90,7 +95,7 @@ export default function GodsTable({
           }}>
             {
               auxArray.map((god, index) => {
-                const rest = index % 5;
+                const rest = index % 6;
                 let element;
                 switch (rest) {
                   case 0:
@@ -115,6 +120,10 @@ export default function GodsTable({
                     break;
                   case 4:
                     element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
+                    break;
+                  case 5:
+                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.attack_speed_buff_tier}</div>;
+                    break;
                   default:
                     break;
                 }

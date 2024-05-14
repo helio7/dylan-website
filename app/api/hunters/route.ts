@@ -20,6 +20,7 @@ export async function GET(request: Request) {
         attack_speed_per_level: god.attack_speed_per_level,
         damage: god.damage,
         damage_per_level: god.damage_per_level,
+        attack_speed_buff_tier: god.attack_speed_buff_tier,
       };
     });
 

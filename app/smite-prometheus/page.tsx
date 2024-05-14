@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 import GodsTable from "./gods-table";
+import { generateSortingCallback } from "./logic";
+
+export type AttackSpeedBuffTier = 'S' | 'A' | 'B' | 'C' | 'D';
 
 export interface SortedHunter {
   codename: string;
@@ -11,10 +14,11 @@ export interface SortedHunter {
   attack_speed_per_level: number;
   damage: number;
   damage_per_level: number;
+  attack_speed_buff_tier: AttackSpeedBuffTier;
 }
 
 export interface SortingCriteria {
-  criteria: 'name' | 'attack_speed' | 'damage' | 'dps';
+  criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier';
   direction: 'asc' | 'desc';
 }
 
@@ -34,46 +38,13 @@ export default function HuntersPage() {
       });
   }, []);
 
-  function recalculate(criteria: string, direction: string, level: number) {
-    let sortingCallback;
-    switch (criteria) {
-      case 'name':
-        sortingCallback = (a: SortedHunter, b: SortedHunter) => {
-          if (direction === 'asc') return a.name.localeCompare(b.name);
-          else return b.name.localeCompare(a.name);
-        };
-        break;
-      case 'attack_speed':
-        sortingCallback = (a: SortedHunter, b: SortedHunter) => {
-          const aAttackSpeed = a.attack_speed + a.attack_speed_per_level * level / 100;
-          const bAttackSpeed = b.attack_speed + b.attack_speed_per_level * level / 100;
-          if (direction === 'asc') return aAttackSpeed - bAttackSpeed;
-          else return bAttackSpeed - aAttackSpeed;
-        };
-        break;
-      case 'damage':
-        sortingCallback = (a: SortedHunter, b: SortedHunter) => {
-          const aDamage = a.damage + a.damage_per_level * level;
-          const bDamage = b.damage + b.damage_per_level * level;
-          if (direction === 'asc') return bDamage - aDamage;
-          else return bDamage - aDamage;
-        }
-        break;
-      case 'dps':
-        sortingCallback = (a: SortedHunter, b: SortedHunter) => {
-          const aDps = (a.damage + a.damage_per_level * level) * (a.attack_speed + a.attack_speed_per_level * level / 100);
-          const bDps = (b.damage + b.damage_per_level * level) * (b.attack_speed + b.attack_speed_per_level * level / 100);
-          if (direction === 'asc') return bDps - aDps;
-          else return bDps - aDps;
-        };
-        break;
-      default:
-        break;
-    }
-    setHunters([...hunters].sort(sortingCallback));
+  function recalculate(criteria: string, direction: 'asc' | 'desc', level: number) {
+    setHunters([...hunters].sort(
+      generateSortingCallback(criteria, direction, level),
+    ));
   }
 
-  function toggleSortDirection(criteria: 'name' | 'attack_speed' | 'damage' | 'dps') {
+  function toggleSortDirection(criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier') {
     if (sortingCriteria.criteria === criteria) {
       if (sortingCriteria.direction === 'asc') {
         setSortingCriteria({ criteria, direction: 'desc' });
@@ -83,7 +54,7 @@ export default function HuntersPage() {
       setHunters([...hunters].reverse());
     } else {
       let direction: 'asc' | 'desc' = 'asc';
-      if (['attack_speed', 'damage', 'dps'].includes(criteria)) direction = 'desc';
+      if (['attack_speed', 'damage', 'dps', 'attack_speed_buff_tier'].includes(criteria)) direction = 'desc';
       setSortingCriteria({ criteria, direction });
       recalculate(criteria, direction, level);
     }
