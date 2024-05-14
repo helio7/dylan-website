@@ -1,5 +1,5 @@
 import { generateSortingCallback } from "./logic";
-import { AttackSpeedBuffTier, SortedHunter } from "./page";
+import { AttackSpeedBuffTier, SortedHunter } from "./types";
 
 describe('generateSortingCallback function', () => {
   const testHunter: SortedHunter = {

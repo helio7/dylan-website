@@ -1,4 +1,4 @@
-import { SortedHunter } from "./page";
+import { SortedHunter } from "./types";
 
 export const VALUE_BY_RANK: { [key: string]: number } = { D: 0, C: 1, B: 2, A: 3, S: 4 };
 
