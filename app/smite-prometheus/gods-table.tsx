@@ -1,8 +1,7 @@
 import Image from "next/image";
 import styles from './index.module.css'
 import LevelInput from "./level-input";
-import { SortingCriteria } from "./page";
-import { SortedHunter } from "./types";
+import { SortedHunter, SortingCriteria } from "./types";
 
 export default function GodsTable({
   gods,
@@ -14,30 +13,71 @@ export default function GodsTable({
   backgroundColor,
   itemsBackgroundColor,
   selectedBackgroundColor,
+  columns,
 }: {
   gods: SortedHunter[],
   toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier') => void,
   level: number,
   increaseLevel: () => void,
   decreaseLevel: () => void,
-  sortingCriteria: SortingCriteria,
+  sortingCriteria: {
+    criteria: SortingCriteria,
+    direction: 'asc' | 'desc',
+  },
   backgroundColor: string,
   itemsBackgroundColor: string,
   selectedBackgroundColor: string,
+  columns: {
+    key: 'icon' | 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier',
+    title: string,
+    width: number,
+    sortable: boolean,
+  }[],
 }) {
-  const auxArray = [];
+  const cells = [];
   if (gods) {
     for (const god of gods) {
-      auxArray.push(god);
-      auxArray.push(god);
-      auxArray.push(god);
-      auxArray.push(god);
-      auxArray.push(god);
-      auxArray.push(god);
+      for (let i = 0; i < columns.length; i++) {
+        let element;
+        switch (columns[i].key) {
+          case 'icon':
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>
+              <Image
+                src={`/gods_icons/${god.codename}.png`}
+                alt={`${god.name}'s profile picture`}
+                width={54}
+                height={54}
+                key={i}
+              />
+            </div>;
+            break;
+          case 'name':
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.name}</div>;
+            break;
+          case 'attack_speed':
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.attack_speed + god.attack_speed_per_level * level / 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
+            break;
+          case 'damage':
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.damage + god.damage_per_level * level).toFixed(3).replace(/\.?0*$/,'')}</div>;
+            break;
+          case 'dps':
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
+            break;
+          case 'attack_speed_buff_tier':
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.attack_speed_buff_tier}</div>;
+            break;
+          default:
+            break;
+        }
+        cells.push(element);
+      }
     }
   }
 
   const { criteria } = sortingCriteria;
+
+  let levelInputElementLeftOffset = 1 + columns.length * 5;
+  for (const column of columns) levelInputElementLeftOffset += column.width;
 
   return (
     <div style={{
@@ -48,7 +88,7 @@ export default function GodsTable({
       <div>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '56px 200px 112px 112px 112px 112px',
+          gridTemplateColumns: `${columns.map(({ width }) => `${width}px`).join(' ')}`,
           gridTemplateRows: '56px',
           gap: '4px',
           backgroundColor,
@@ -57,36 +97,26 @@ export default function GodsTable({
           marginBottom: '10px',
           borderRadius: '5px',
         }}>
-          <div className={styles['grid-item']} style={{
-            backgroundColor: itemsBackgroundColor,
-          }}>Icon</div>
-          <div className={styles['grid-item']} style={{
-            cursor: 'pointer',
-            backgroundColor: criteria === 'name' ? selectedBackgroundColor : itemsBackgroundColor,
-          }} onClick={() => toggleSortDirection('name')} >Name</div>
-          <div className={styles['grid-item']} style={{
-            cursor: 'pointer',
-            backgroundColor: criteria === 'attack_speed' ? selectedBackgroundColor : itemsBackgroundColor,
-          }} onClick={() => toggleSortDirection('attack_speed')}>Attack speed</div>
-          <div className={styles['grid-item']} style={{
-            cursor: 'pointer',
-            backgroundColor: criteria === 'damage' ? selectedBackgroundColor : itemsBackgroundColor,
-          }} onClick={() => toggleSortDirection('damage')}>Damage</div>
-          <div className={styles['grid-item']} style={{
-            cursor: 'pointer',
-            backgroundColor: criteria === 'dps' ? selectedBackgroundColor : itemsBackgroundColor,
-          }} onClick={() => toggleSortDirection('dps')}>DPS</div>
-          <div className={styles['grid-item']} style={{
-            cursor: 'pointer',
-            backgroundColor: criteria === 'attack_speed_buff_tier' ? selectedBackgroundColor : itemsBackgroundColor,
-          }} onClick={() => toggleSortDirection('attack_speed_buff_tier')}>Attack Speed Buff Tier</div>
+          {columns.map(({ key, title, sortable }) => (
+            <div
+              key={key}
+              className={styles['grid-item']}
+              style={{
+                cursor: sortable ? 'pointer' : undefined,
+                backgroundColor: sortable ? (criteria === key ? selectedBackgroundColor : itemsBackgroundColor) : itemsBackgroundColor,
+              }}
+              onClick={sortable && key !== 'icon' ? () => toggleSortDirection(key) : undefined}
+            >
+              {title}
+            </div>
+          ))}
         </div>
         <div style={{
           display: 'flex',      
         }}>
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '56px 200px 112px 112px 112px 112px',
+            gridTemplateColumns: `${columns.map(({ width }) => `${width}px`).join(' ')}`,
             gridTemplateRows: '56px 56px',
             gap: '4px',
             backgroundColor,
@@ -94,47 +124,15 @@ export default function GodsTable({
             border: '1px solid black',
             borderRadius: '5px',
           }}>
-            {
-              auxArray.map((god, index) => {
-                const rest = index % 6;
-                let element;
-                switch (rest) {
-                  case 0:
-                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>
-                      <Image
-                        src={`/gods_icons/${god.codename}.png`}
-                        alt={`${god.name}'s profile picture`}
-                        width={54}
-                        height={54}
-                        key={index}
-                      />
-                    </div>;
-                    break;
-                  case 1:
-                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.name}</div>
-                    break;
-                  case 2:
-                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.attack_speed + god.attack_speed_per_level * level / 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
-                    break;
-                  case 3:
-                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.damage + god.damage_per_level * level).toFixed(3).replace(/\.?0*$/,'')}</div>;
-                    break;
-                  case 4:
-                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
-                    break;
-                  case 5:
-                    element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.attack_speed_buff_tier}</div>;
-                    break;
-                  default:
-                    break;
-                }
-                return element;
-              })
-            }
+            { cells.map(element => element) }
           </div>
         </div>
       </div>
-      <LevelInput level={level} increaseLevel={increaseLevel} decreaseLevel={decreaseLevel} backgroundColor={backgroundColor} itemBackgroundColor={itemsBackgroundColor} />
+      <LevelInput
+        level={level} increaseLevel={increaseLevel} decreaseLevel={decreaseLevel}
+        backgroundColor={backgroundColor} itemBackgroundColor={itemsBackgroundColor}
+        leftOffset={levelInputElementLeftOffset}
+      />
     </div>
   ); 
 }

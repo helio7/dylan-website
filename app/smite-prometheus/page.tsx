@@ -4,18 +4,17 @@ import Link from "next/link";
 import { useEffect, useState } from 'react';
 import GodsTable from "./gods-table";
 import { generateSortingCallback } from "./logic";
-
-export interface SortingCriteria {
-  criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier';
-  direction: 'asc' | 'desc';
-}
+import { SortingCriteria } from "./types";
 
 export default function HuntersPage() {
   const [hunters, setHunters] = useState([]);
   const [sortingCriteria, setSortingCriteria] = useState({
     criteria: 'name',
     direction: 'asc',
-  } as SortingCriteria);
+  } as {
+    criteria: SortingCriteria,
+    direction: 'asc' | 'desc',
+  });
   const [level, setLevel] = useState(20);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function HuntersPage() {
     ));
   }
 
-  function toggleSortDirection(criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier') {
+  function toggleSortDirection(criteria: SortingCriteria) {
     if (sortingCriteria.criteria === criteria) {
       if (sortingCriteria.direction === 'asc') {
         setSortingCriteria({ criteria, direction: 'desc' });
@@ -89,6 +88,14 @@ export default function HuntersPage() {
         backgroundColor="orange"
         itemsBackgroundColor="burlywood"
         selectedBackgroundColor="#FFC90E"
+        columns={[
+          { key: 'icon', title: 'Icon', width: 56, sortable: false },
+          { key: 'name', title: 'Name', width: 200, sortable: true },
+          { key: 'attack_speed', title: 'Attack Speed', width: 112, sortable: true },
+          { key: 'damage', title: 'Damage', width: 112, sortable: true },
+          { key: 'dps', title: 'DPS', width: 112, sortable: true },
+          { key: 'attack_speed_buff_tier', title: 'Attack Speed Buff Tier', width: 112, sortable: true },
+        ]}
       />
     </main>
   );

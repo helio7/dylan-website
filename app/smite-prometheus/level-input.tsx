@@ -7,12 +7,14 @@ export default function LevelInput({
   decreaseLevel,
   backgroundColor,
   itemBackgroundColor,
+  leftOffset,
 }: {
   level: number,
   increaseLevel: () => void,
   decreaseLevel: () => void,
   backgroundColor: string,
   itemBackgroundColor: string,
+  leftOffset: number,
 }) {
   return (
     <div style={{
@@ -21,7 +23,7 @@ export default function LevelInput({
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      left: '735px',
+      left: `${leftOffset}px`,
       padding: '5px',
     }}>
       <span style={{
