@@ -15,8 +15,8 @@ export function generateSortingCallback(
       }
     case 'attack_speed':
       return (a: SortedHunter, b: SortedHunter) => {
-        const aAttackSpeed = a.attack_speed + a.attack_speed_per_level * level / 100;
-        const bAttackSpeed = b.attack_speed + b.attack_speed_per_level * level / 100;
+        const aAttackSpeed = a.attack_speed + a.attack_speed * a.attack_speed_per_level * level / 100;
+        const bAttackSpeed = b.attack_speed + b.attack_speed * b.attack_speed_per_level * level / 100;
         if (direction === 'asc') return aAttackSpeed - bAttackSpeed;
         else return bAttackSpeed - aAttackSpeed;
       };
