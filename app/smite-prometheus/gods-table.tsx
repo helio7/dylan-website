@@ -65,7 +65,13 @@ export default function GodsTable({
             element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
             break;
           case 'attack_speed_buff_tier':
-            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.attack_speed_buff_tier}</div>;
+            element = <div
+              className={`${styles['grid-item']} ${styles['tooltip']}`}
+              style={{ backgroundColor: itemsBackgroundColor }}
+            >
+              {god.attack_speed_buff_tier}
+              <span className={styles['tooltiptext']}>Hives: 10/20/30/40/50% attack speed</span>
+            </div>;
             break;
           default:
             break;
