@@ -90,11 +90,11 @@ export default function HuntersPage() {
         selectedBackgroundColor="#FFC90E"
         columns={[
           { key: 'icon', title: 'Icon', width: 56, sortable: false },
-          { key: 'name', title: 'Name', width: 200, sortable: true },
+          { key: 'name', title: 'Name', width: 150, sortable: true },
           { key: 'attack_speed', title: 'Attack Speed', width: 112, sortable: true },
-          { key: 'damage', title: 'Damage', width: 112, sortable: true },
-          { key: 'dps', title: 'DPS', width: 112, sortable: true },
-          { key: 'attack_speed_buff_tier', title: 'Attack Speed Buff Tier', width: 112, sortable: true },
+          { key: 'damage', title: 'Damage', width: 100, sortable: true },
+          { key: 'dps', title: 'DPS', width: 100, sortable: true },
+          { key: 'attack_speed_buff_tier', title: 'Attack Speed Buff Tier', width: 100, sortable: true },
         ]}
       />
     </main>
