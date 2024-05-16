@@ -1,16 +1,17 @@
-import { generateSortingCallback } from "./logic";
+import { calculateAttackSpeed, generateSortingCallback } from "./logic";
 import { AttackSpeedBuffTier, SortedHunter } from "./types";
 
+const testHunter: SortedHunter = {
+  codename: 'test',
+  name: 'Test',
+  attack_speed: 1,
+  attack_speed_per_level: 1,
+  damage: 1,
+  damage_per_level: 1,
+  attack_speed_buff_tier: 'D',
+};
+
 describe('generateSortingCallback function', () => {
-  const testHunter: SortedHunter = {
-    codename: 'test',
-    name: 'Test',
-    attack_speed: 1,
-    attack_speed_per_level: 1,
-    damage: 1,
-    damage_per_level: 1,
-    attack_speed_buff_tier: 'D',
-  };
   let hunters: SortedHunter[] = [];
 
   it('returns a callback that sorts an array of hunters correctly by name', () => {
@@ -30,19 +31,19 @@ describe('generateSortingCallback function', () => {
   });
   it('returns a callback that sorts an array of hunters correctly by attack speed', () => {
     hunters = [
-      { codename: 'cernunnos', attack_speed: 1, attack_speed_per_level: 1.4 },
+      { codename: 'cernunnos', attack_speed: 1, attack_speed_per_level: 1.4 }, // 1.28
       { codename: 'anhur', attack_speed: 1, attack_speed_per_level: 1.7 },
       { codename: 'hachiman', attack_speed: 1, attack_speed_per_level: 1.3 },
-      { codename: 'chernobog', attack_speed: 0.95, attack_speed_per_level: 1.7 },
+      { codename: 'chernobog', attack_speed: 0.95, attack_speed_per_level: 1.7 }, // 1.273
     ].map((hunter) => {
       return { ...testHunter, ...hunter };
     });
     let callback = generateSortingCallback('attack_speed', 'asc', 20);
     hunters.sort(callback);
-    expect(hunters.map((hunter) => hunter.codename)).toEqual(['hachiman', 'cernunnos', 'chernobog', 'anhur']);
+    expect(hunters.map((hunter) => hunter.codename)).toEqual(['hachiman', 'chernobog', 'cernunnos', 'anhur']);
     callback = generateSortingCallback('attack_speed', 'desc', 20);
     hunters.sort(callback);
-    expect(hunters.map((hunter) => hunter.codename)).toEqual(['anhur', 'chernobog', 'cernunnos', 'hachiman']);
+    expect(hunters.map((hunter) => hunter.codename)).toEqual(['anhur', 'cernunnos', 'chernobog', 'hachiman']);
   });
   it('returns a callback that sorts an array of hunters correctly by damage', () => {
     hunters = [
@@ -91,5 +92,14 @@ describe('generateSortingCallback function', () => {
     callback = generateSortingCallback('attack_speed_buff_tier', 'desc', 20);
     hunters.sort(callback);
     expect(hunters.map((hunter) => hunter.codename)).toEqual(['artemis', 'chernobog', 'hachiman', 'anhur']);
+  });
+});
+
+describe('calculateAttackSpeed function', () => {
+  it('returns the correct attack speed', () => {
+    expect(
+      calculateAttackSpeed({ ...testHunter, attack_speed: 0.95, attack_speed_per_level: 1.5 }, 15).toFixed(5),
+    )
+      .toEqual('1.16375');
   });
 });

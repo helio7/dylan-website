@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from './index.module.css'
 import LevelInput from "./level-input";
 import { SortedHunter, SortingCriteria } from "./types";
+import { calculateAttackSpeed } from "./logic";
 
 export default function GodsTable({
   gods,
@@ -55,7 +56,7 @@ export default function GodsTable({
             element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{god.name}</div>;
             break;
           case 'attack_speed':
-            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.attack_speed + god.attack_speed * god.attack_speed_per_level * level / 100).toFixed(3).replace(/\.?0*$/,'')}</div>;
+            element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(calculateAttackSpeed(god, level)).toFixed(3).replace(/\.?0*$/,'')}</div>;
             break;
           case 'damage':
             element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{(god.damage + god.damage_per_level * level).toFixed(3).replace(/\.?0*$/,'')}</div>;

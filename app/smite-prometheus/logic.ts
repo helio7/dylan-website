@@ -15,8 +15,8 @@ export function generateSortingCallback(
       }
     case 'attack_speed':
       return (a: SortedHunter, b: SortedHunter) => {
-        const aAttackSpeed = a.attack_speed + a.attack_speed * a.attack_speed_per_level * level / 100;
-        const bAttackSpeed = b.attack_speed + b.attack_speed * b.attack_speed_per_level * level / 100;
+        const aAttackSpeed = calculateAttackSpeed(a, level);
+        const bAttackSpeed = calculateAttackSpeed(b, level);
         if (direction === 'asc') return aAttackSpeed - bAttackSpeed;
         else return bAttackSpeed - aAttackSpeed;
       };
@@ -44,4 +44,9 @@ export function generateSortingCallback(
     default:
       throw new Error('Invalid sorting criteria');
   }
+}
+
+export function calculateAttackSpeed(hunter: SortedHunter, level: number) {
+  const { attack_speed, attack_speed_per_level } = hunter;
+  return attack_speed + attack_speed * attack_speed_per_level * level / 100;
 }
