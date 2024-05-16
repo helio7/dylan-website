@@ -8,7 +8,13 @@ const testHunter: SortedHunter = {
   attack_speed_per_level: 1,
   damage: 1,
   damage_per_level: 1,
-  attack_speed_buff_tier: 'D',
+  grade_tiers: {
+    attack_speed: {
+      grade: 'D',
+      explanation: 'Test can\'t buff his attack speed.'
+    }
+  },
+  skills: {},
 };
 
 describe('generateSortingCallback function', () => {

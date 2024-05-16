@@ -69,8 +69,8 @@ export default function GodsTable({
               className={`${styles['grid-item']} ${styles['tooltip']}`}
               style={{ backgroundColor: itemsBackgroundColor }}
             >
-              {god.attack_speed_buff_tier}
-              <span className={styles['tooltiptext']}>Hives: 10/20/30/40/50% attack speed</span>
+              {god.grade_tiers.attack_speed.grade}
+              <span className={styles['tooltiptext']}>{god.grade_tiers.attack_speed.explanation}</span>
             </div>;
             break;
           default:

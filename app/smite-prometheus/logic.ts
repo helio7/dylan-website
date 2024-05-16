@@ -36,8 +36,8 @@ export function generateSortingCallback(
       };
     case 'attack_speed_buff_tier':
       return (a: SortedHunter, b: SortedHunter) => {
-        const aValue = VALUE_BY_RANK[a.attack_speed_buff_tier];
-        const bValue = VALUE_BY_RANK[b.attack_speed_buff_tier];
+        const aValue = VALUE_BY_RANK[a.grade_tiers.attack_speed.grade];
+        const bValue = VALUE_BY_RANK[b.grade_tiers.attack_speed.grade];
         if (direction === 'asc') return aValue - bValue;
         else return bValue - aValue;
       };
