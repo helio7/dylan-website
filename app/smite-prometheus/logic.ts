@@ -34,6 +34,13 @@ export function generateSortingCallback(
         if (direction === 'asc') return aDps - bDps;
         else return bDps - aDps;
       };
+    case 'cc_tier':
+      return (a: SortedHunter, b: SortedHunter) => {
+        const aValue = VALUE_BY_RANK[a.grade_tiers.cc.grade];
+        const bValue = VALUE_BY_RANK[b.grade_tiers.cc.grade];
+        if (direction === 'asc') return aValue - bValue;
+        else return bValue - aValue;
+      }
     case 'attack_speed_buff_tier':
       return (a: SortedHunter, b: SortedHunter) => {
         const aValue = VALUE_BY_RANK[a.grade_tiers.attack_speed.grade];

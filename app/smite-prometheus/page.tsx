@@ -41,7 +41,7 @@ export default function HuntersPage() {
       setHunters([...hunters].reverse());
     } else {
       let direction: 'asc' | 'desc' = 'asc';
-      if (['attack_speed', 'damage', 'dps', 'attack_speed_buff_tier'].includes(criteria)) direction = 'desc';
+      if (['attack_speed', 'damage', 'dps', 'cc_tier', 'attack_speed_buff_tier'].includes(criteria)) direction = 'desc';
       setSortingCriteria({ criteria, direction });
       recalculate(criteria, direction, level);
     }
@@ -94,6 +94,7 @@ export default function HuntersPage() {
           { key: 'attack_speed', title: 'Attack Speed', width: 112, sortable: true },
           { key: 'damage', title: 'Damage', width: 100, sortable: true },
           { key: 'dps', title: 'DPS', width: 100, sortable: true },
+          { key: 'cc_tier', title: 'Crowd Control Tier', width: 100, sortable: true },
           { key: 'attack_speed_buff_tier', title: 'Attack Speed Buff Tier', width: 100, sortable: true },
         ]}
       />

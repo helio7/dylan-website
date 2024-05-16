@@ -8,7 +8,7 @@ export interface SortedHunter {
   damage: number;
   damage_per_level: number;
   grade_tiers: {
-    attack_speed: {
+    [key: string]: {
       grade: AttackSpeedBuffTier;
       explanation: string;
     }
@@ -18,4 +18,4 @@ export interface SortedHunter {
   }
 }
 
-export type SortingCriteria = 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier';
+export type SortingCriteria = 'name' | 'attack_speed' | 'damage' | 'dps' | 'cc_tier' | 'attack_speed_buff_tier';

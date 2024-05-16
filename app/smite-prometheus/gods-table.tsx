@@ -17,7 +17,7 @@ export default function GodsTable({
   columns,
 }: {
   gods: SortedHunter[],
-  toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier') => void,
+  toggleSortDirection: (criteria: 'name' | 'attack_speed' | 'damage' | 'dps' | 'cc_tier' | 'attack_speed_buff_tier') => void,
   level: number,
   increaseLevel: () => void,
   decreaseLevel: () => void,
@@ -29,7 +29,7 @@ export default function GodsTable({
   itemsBackgroundColor: string,
   selectedBackgroundColor: string,
   columns: {
-    key: 'icon' | 'name' | 'attack_speed' | 'damage' | 'dps' | 'attack_speed_buff_tier',
+    key: 'icon' | 'name' | 'attack_speed' | 'damage' | 'dps' | 'cc_tier' | 'attack_speed_buff_tier',
     title: string,
     width: number,
     sortable: boolean,
@@ -63,6 +63,15 @@ export default function GodsTable({
             break;
           case 'dps':
             element = <div className={styles['grid-item']} style={{ backgroundColor: itemsBackgroundColor }}>{((god.damage + god.damage_per_level * level) * (god.attack_speed + god.attack_speed_per_level * level / 100)).toFixed(3).replace(/\.?0*$/,'')}</div>;
+            break;
+          case 'cc_tier':
+            element = <div
+              className={`${styles['grid-item']} ${styles['tooltip']}`}
+              style={{ backgroundColor: itemsBackgroundColor }}
+            >
+              {god.grade_tiers.cc.grade}
+              <span className={styles['tooltiptext']}>{god.grade_tiers.cc.explanation}</span>
+            </div>;
             break;
           case 'attack_speed_buff_tier':
             element = <div
